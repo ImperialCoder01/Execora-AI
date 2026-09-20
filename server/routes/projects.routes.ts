@@ -57,8 +57,9 @@ router.post('/analyze', async (req: Request, res: Response): Promise<void> => {
     const activeProjectId = projectId || 'demo-project-id';
     const trimmedText = (text || '').trim();
 
+    const normalizeText = (s: string) => (s || '').replace(/\r\n/g, '\n').trim();
     // Check if text matches any predefined sample preset
-    const matchedPreset = SAMPLE_PRESETS.find(p => p.text.trim() === trimmedText);
+    const matchedPreset = SAMPLE_PRESETS.find(p => normalizeText(p.text) === normalizeText(trimmedText));
 
     if (matchedPreset) {
       console.log(`[Analyze Route] Matched sample preset: "${matchedPreset.title}"`);
