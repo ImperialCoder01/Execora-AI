@@ -27,18 +27,64 @@ Execora is a production-grade **Execution Readiness Engine** built to bridge the
 
 ---
 
-## ⚡ Key Features & Differentiators
+## 🛠️ Full Technical Stack & Architecture
 
-- **0–100 Estimated Execution Readiness Score**: Explainable score computed deterministically with transparent penalty items.
-- **Interactive Clarification Loop**: Identifies high-impact ambiguity gaps. Answering questions dynamically updates the graph and recalculates readiness (e.g. `62% BLOCKED` → `82% READY WITH WARNINGS`).
-- **What-If Delay Simulator**: Simulates delay propagation (e.g., *"What if Rahul is delayed by 1 hour?"*), calculating affected tasks, impacted people, critical path shifts, and automated mitigations.
-- **Universal Document Ingestion**: Native server-side parsing for PDF, DOCX, TXT, MD, CSV, JSON, and LOG files.
-- **Grounded Q&A Engine**: Direct chat grounded in retrieved Cognee memories and source evidence, strictly enforcing `EXPLICIT`, `INFERRED`, and `UNKNOWN` certainty tiers.
-- **100% Offline Demo Mode**: Zero-risk live presentations with preloaded hackathon scenario dataset even if external APIs are unreachable.
+### 🎨 Frontend Layer
+- **Framework**: [React 19](https://react.dev/) + [TypeScript 5.7](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite 6.4](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS 3.4](https://tailwindcss.com/) with PostCSS & Autoprefixer
+- **UI Components & Icons**: [Lucide React](https://lucide.dev/) (Modern UI icons)
+- **Class Merging Utilities**: `clsx` + `tailwind-merge`
+
+### ⚙️ Backend API & Serverless Layer
+- **Runtime**: [Node.js v24](https://nodejs.org/)
+- **Web Framework**: [Express 4.21](https://expressjs.com/)
+- **Server Execution**: `tsx` (TypeScript Execute daemon)
+- **Serverless Adapter**: `@vercel/node` for Vercel Serverless Functions (`api/index.ts`)
+- **Middleware**: `cors`, `dotenv`
+
+### 📄 Universal Document Parsing Engine
+- **PDF Parser**: `pdf-parse` (Native server-side PDF text extraction)
+- **Word Document Parser**: `mammoth` (.docx to plain text conversion)
+- **Text & Data Formats**: Built-in support for TXT, Markdown, CSV, JSON, and LOG files
+
+### 🧠 AI Reasoning & Language Models
+- **AI SDK**: [`groq-sdk`](https://github.com/groq/groq-sdk-js)
+- **Primary LLM Model**: `llama-3.3-70b-versatile` via Groq Cloud API
+- **AI Capabilities**: Structured JSON extraction, risk explanation reasoning, grounded Q&A
+
+### 🕸️ Connected Memory Layer (Cognee Cloud)
+- **Knowledge Graph Storage**: [Cognee Cloud API](https://cognee.ai)
+- **Memory API Endpoints**: `/remember` (ingest context) and `/recall` (semantic search & retrieval)
+- **Resilience**: `CogneeMemoryProvider` with automatic local in-memory fallback store
+
+### 🗄️ Database & Application State
+- **Database Engine**: [Supabase PostgreSQL](https://supabase.com/)
+- **Database SDK**: `@supabase/supabase-js` v2.49
+- **Management API**: Direct SQL schema migration execution via Supabase Management API
+- **Tables**: `projects`, `sources`, `analyses`, `tasks`, `dependencies`, `risks`, `clarifications`, `execution_plans`, `scenarios`, `source_evidence`
+
+### 📐 Deterministic Audit & Graph Engine
+- **Custom Algorithms**:
+  - Depth-First Search (DFS) cycle detection (`detectCycles`)
+  - Topological sort critical path traversal (`findCriticalPath`)
+  - Workload concentration auditor (`findResourceConflicts`)
+  - Unassigned task detector (`findUnassignedTasks`)
+  - What-If delay propagation engine (`runWhatIfSimulation`)
+- **Readiness Score Formula**: Explainable 0–100 score calculation with transparent penalty logging
+
+### ☁️ Cloud Infrastructure & Hosting
+- **Primary Backend Host**: [Render Web Services](https://render.yaml) (`env: node`, `buildCommand: npm install && npm run build`, `startCommand: npm run start`)
+- **Serverless Host**: [Vercel](https://vercel.com/) (`vercel.json` rewrites to `/api/index.ts`)
+- **24/7 Keep-Alive Monitor**: [UptimeRobot](https://uptimerobot.com/) pinging `/api/keep-alive` every 5 minutes
+
+### 🎨 Brand & Vector Asset Pipeline
+- **Vector Graphics**: Custom SVG definitions for logo, app icon, social preview banner
+- **Image Processing**: `sharp` (Dynamic import with graceful fallback for headless build environments)
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ System Data Flow Diagram
 
 ```
                       USER INTERFACE
@@ -75,7 +121,7 @@ Execora is a production-grade **Execution Readiness Engine** built to bridge the
 
 ---
 
-## 🔑 Environment Variables
+## 🔑 Environment Variables Configuration
 
 Configure these keys in your local `.env` or cloud dashboard (Render / Vercel):
 
