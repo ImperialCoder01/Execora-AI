@@ -231,7 +231,7 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
           </div>
           <div className="flex items-baseline justify-between">
             <span className="text-3xl font-extrabold text-white font-mono">
-              {Math.round((analysis.confidence || 0.85) * 100)}%
+              {analysis.confidence > 1 ? Math.round(analysis.confidence) : Math.round((analysis.confidence || 0.85) * 100)}%
             </span>
             <span className="text-xs font-bold text-emerald-400">High Confidence</span>
           </div>
