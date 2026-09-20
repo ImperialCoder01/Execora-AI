@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: execora-backend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: COGNEE_API_KEY
+        sync: false
+      - key: COGNEE_BASE_URL
+        value: https://tenant-b4ea654e-84d5-4ba3-a3c7-333cc3e04fb1.aws.cognee.ai
+      - key: COGNEE_TENANT_ID
+        value: b4ea654e-84d5-4ba3-a3c7-333cc3e04fb1
+      - key: COGNEE_USER_ID
+        value: ce41d096-ae42-4af1-84c0-8449e325b33b
+      - key: VITE_SUPABASE_URL
+        value: https://btuucgpelprepadqrcbi.supabase.co
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_URL
+        value: https://btuucgpelprepadqrcbi.supabase.co
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_ACCESS_TOKEN
+        sync: false
