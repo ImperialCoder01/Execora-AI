@@ -1,5 +1,6 @@
 import { AnalysisResult, GroundedQAResponse } from '../types';
 import { DEMO_ANALYSIS } from '../data/demoAnalysis';
+import { parseCustomTextHeuristically } from '../utils/heuristicExtractor';
 
 export interface HealthStatus {
   status: string;
@@ -79,9 +80,10 @@ export async function analyzeTextAPI(
 
     return await res.json();
   } catch (error) {
-    console.warn("Client fallback to demo analysis:", error);
+    console.warn("Client fallback to heuristic analysis:", error);
+    const fallback = parseCustomTextHeuristically(text);
     return {
-      ...DEMO_ANALYSIS,
+      ...fallback,
       isDemo: true,
       timestamp: new Date().toISOString()
     };

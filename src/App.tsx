@@ -67,6 +67,10 @@ const AppContent: React.FC = () => {
   const handleSelectPreset = (preset: SamplePreset) => {
     setSelectedPresetId(preset.id);
     setRawText(preset.text);
+    if (preset.analysis) {
+      setAnalysis(preset.analysis);
+      saveAnalysisToHistory(preset.analysis);
+    }
     setActiveTab('analyze');
   };
 

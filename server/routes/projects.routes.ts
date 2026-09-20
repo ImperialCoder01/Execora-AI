@@ -5,6 +5,8 @@ import { answerGroundedQuestion } from '../../src/lib/groq/qa';
 import { runDeterministicAudit } from '../../src/lib/execution/audit';
 import { answerClarification } from '../../src/utils/clarificationLoop';
 import { runWhatIfSimulation } from '../../src/lib/execution/scenarios';
+import { parseCustomTextHeuristically } from '../../src/utils/heuristicExtractor';
+import { SAMPLE_PRESETS } from '../../src/data/sampleInputs';
 import { DEMO_ANALYSIS, DEMO_RAW_TEXT } from '../../src/data/demoAnalysis';
 
 const router = Router();
@@ -53,8 +55,23 @@ router.post('/analyze', async (req: Request, res: Response): Promise<void> => {
   try {
     const { text, forceDemo, projectId } = req.body;
     const activeProjectId = projectId || 'demo-project-id';
+    const trimmedText = (text || '').trim();
 
-    if (forceDemo || !text || text.trim() === DEMO_RAW_TEXT.trim()) {
+    // Check if text matches any predefined sample preset
+    const matchedPreset = SAMPLE_PRESETS.find(p => p.text.trim() === trimmedText);
+
+    if (matchedPreset) {
+      console.log(`[Analyze Route] Matched sample preset: "${matchedPreset.title}"`);
+      projectsStore.set(activeProjectId, {
+        id: activeProjectId,
+        analysis: matchedPreset.analysis,
+        text: trimmedText
+      });
+      res.json({ ...matchedPreset.analysis, isDemo: true });
+      return;
+    }
+
+    if (!trimmedText) {
       res.json({ ...DEMO_ANALYSIS, isDemo: true });
       return;
     }
@@ -62,34 +79,41 @@ router.post('/analyze', async (req: Request, res: Response): Promise<void> => {
     // Ingest text to Cognee Memory
     await memoryProvider.remember({
       projectId: activeProjectId,
-      text: text.trim(),
+      text: trimmedText,
       sourceName: 'Analyze Endpoint'
     });
 
-    // LLM Extraction
-    const extracted = await extractProjectGraph(text.trim());
+    let finalResult;
+    const isGroqAvailable = Boolean(process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.length > 5);
 
-    // Deterministic Graph Audit
-    const audit = runDeterministicAudit(extracted.tasks, extracted.dependencies, extracted.risks);
-
-    const finalResult = {
-      ...extracted,
-      readinessScore: audit.readiness.finalScore,
-      readinessStatus: audit.readiness.status,
-      readinessBreakdown: audit.readiness,
-      isDemo: false
-    };
+    if (!forceDemo && isGroqAvailable) {
+      // LLM Extraction via Groq
+      const extracted = await extractProjectGraph(trimmedText);
+      const audit = runDeterministicAudit(extracted.tasks, extracted.dependencies, extracted.risks);
+      finalResult = {
+        ...extracted,
+        readinessScore: audit.readiness.finalScore,
+        readinessStatus: audit.readiness.status,
+        readinessBreakdown: audit.readiness,
+        isDemo: false
+      };
+    } else {
+      // Heuristic Dynamic Parser for custom user text
+      console.log('[Analyze Route] Using Dynamic Heuristic Extractor for custom user text');
+      finalResult = parseCustomTextHeuristically(trimmedText);
+    }
 
     projectsStore.set(activeProjectId, {
       id: activeProjectId,
       analysis: finalResult,
-      text: text.trim()
+      text: trimmedText
     });
 
     res.json(finalResult);
   } catch (error: any) {
     console.error('[Analyze Error]:', error);
-    res.status(500).json({ error: 'Analysis failed.', fallback: DEMO_ANALYSIS });
+    const fallback = parseCustomTextHeuristically(req.body.text || DEMO_RAW_TEXT);
+    res.status(500).json({ error: 'Analysis failed.', fallback });
   }
 });
 
@@ -173,7 +197,7 @@ router.post('/chat', async (req: Request, res: Response) => {
   } catch (err: any) {
     res.json({
       question: req.body.question,
-      answer: 'Execution is currently blocked by unassigned tasks (Demo Video owner missing) and Rahul workload concentration.',
+      answer: 'Execution is currently blocked by unassigned tasks (Demo Video owner missing) and workload concentration.',
       type: 'FACT',
       sources: ['Execora Audit Engine'],
       isGrounded: true
