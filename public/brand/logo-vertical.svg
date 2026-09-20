@@ -16,7 +16,6 @@
     </filter>
   </defs>
 
-  <!-- Logo Mark Centered -->
   <g transform="translate(142, 20) scale(1.1)">
     
   <g transform="translate(10, 10)">
@@ -31,8 +30,6 @@
   </g>
 
   </g>
-  <!-- Wordmark Centered -->
   <text x="200" y="210" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Execora</text>
-  <!-- Tagline Centered -->
   <text x="200" y="245" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="400" fill="#94A3B8" letter-spacing="0.2">From information to execution.</text>
 </svg>

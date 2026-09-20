@@ -16,14 +16,9 @@
     </filter>
   </defs>
 
-  <!-- Background -->
   <rect width="1200" height="630" fill="url(#bgGrad)" />
-  
-  <!-- Subtle Background Grid/Accent -->
   <circle cx="200" cy="150" r="300" fill="#0EA5E9" opacity="0.08" filter="blur(60px)" />
   <circle cx="1000" cy="450" r="250" fill="#6366F1" opacity="0.08" filter="blur(60px)" />
-
-  <!-- Left Main Branding -->
   <g transform="translate(100, 200)">
     <g transform="translate(0, 0) scale(1.6)">
       
@@ -42,8 +37,6 @@
     <text x="200" y="90" font-family="Inter, system-ui, sans-serif" font-size="80" font-weight="800" fill="#F8FAFC" letter-spacing="-2">Execora</text>
     <text x="204" y="135" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="500" fill="#94A3B8" letter-spacing="0.5">From information to execution.</text>
   </g>
-
-  <!-- Right Pillars Box -->
   <g transform="translate(780, 180)">
     <rect width="320" height="270" rx="24" fill="#0F172A" stroke="#1E293B" stroke-width="2" />
     <text x="40" y="70" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="1.5">UNDERSTAND</text>
@@ -51,7 +44,5 @@
     <text x="40" y="170" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#6366F1" letter-spacing="1.5">PLAN</text>
     <text x="40" y="220" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC" letter-spacing="1.5">EXECUTE</text>
   </g>
-
-  <!-- Bottom Slogan -->
   <text x="600" y="570" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="500" fill="#94A3B8" letter-spacing="1.5">“Execora — From information to execution.”</text>
 </svg>

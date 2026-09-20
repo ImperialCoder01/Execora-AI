@@ -16,7 +16,6 @@
     </filter>
   </defs>
 
-  <!-- Logo Mark -->
   <g transform="translate(10, 15) scale(1.05)">
     
   <g transform="translate(10, 10)">
@@ -31,8 +30,6 @@
   </g>
 
   </g>
-  <!-- Wordmark "Execora" -->
   <text x="145" y="72" font-family="Inter, system-ui, sans-serif" font-size="54" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Execora</text>
-  <!-- Tagline -->
   <text x="147" y="98" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="400" fill="#94A3B8" letter-spacing="0.2">From information to execution.</text>
 </svg>
