@@ -4,12 +4,21 @@
 
 ---
 
+## 🌟 Live Production Links
+
+- 🌐 **Primary Production Deployment (Render)**: [https://execora-ai.onrender.com](https://execora-ai.onrender.com)
+- ⚡ **Serverless Deployment (Vercel)**: [https://execora-ai.vercel.app](https://execora-ai.vercel.app)
+- 📡 **UptimeRobot Keep-Alive Endpoint**: `https://execora-ai.onrender.com/api/keep-alive`
+- 🐙 **GitHub Repository**: [https://github.com/ImperialCoder01/Execora-AI](https://github.com/ImperialCoder01/Execora-AI)
+
+---
+
 ## 🎯 What is Execora?
 
 Most AI productivity tools tell you **what needs to be done**.  
 **Execora checks whether the work can actually be executed.**
 
-Execora is a production-grade **Execution Readiness Engine** built to bridge the critical gap between unstructured project communications and real-world execution. Instead of relying on LLM guesswork for graph algorithms and readiness calculations, Execora combines:
+Execora is a production-grade **Execution Readiness Engine** built to bridge the critical gap between messy project text and real-world execution. Instead of relying on LLM guesswork for graph algorithms and readiness calculations, Execora combines:
 
 1. **Groq LLaMA 3.3 70B**: High-speed structured information extraction, risk explanation, and grounded Q&A.
 2. **Cognee Cloud**: Connected project-memory layer for semantic knowledge graph indexing and cross-document context retrieval.
@@ -29,26 +38,26 @@ Execora is a production-grade **Execution Readiness Engine** built to bridge the
 
 ---
 
-## 🏛️ Architecture Overview
+## 🏛️ System Architecture
 
 ```
                       USER INTERFACE
+              (React 19 + TypeScript + Vite)
                             │
                             ▼
-                     EXECORA FRONTEND
-               (React 19 + TypeScript + Vite)
+                     EXECORA SIDEBAR & UI
                             │
                ┌────────────┴────────────┐
                ▼                         ▼
-         EXECORA API                 SUPABASE
-     (Express / Vercel)         (PostgreSQL State)
-               │
-      ┌────────┼────────────────────────┐
-      ▼        ▼                        ▼
-    GROQ    COGNEE                DETERMINISTIC
-   AI LLM   MEMORY               GRAPH DFS ENGINE
-      │        │                        │
-      └────────┴────────────┬───────────┘
+        RENDER WEB BACKEND           VERCEL VITE
+     (Express API on Port 10000)   (Serverless Functions)
+               │                         │
+      ┌────────┼─────────────────────────┘
+      ▼        ▼                         ▼
+    GROQ    COGNEE                 DETERMINISTIC
+   AI LLM   MEMORY                GRAPH DFS ENGINE
+      │        │                         │
+      └────────┴────────────┬────────────┘
                             ▼
                      EXECUTION GRAPH
                             │
@@ -66,18 +75,9 @@ Execora is a production-grade **Execution Readiness Engine** built to bridge the
 
 ---
 
-## 🛠️ Tech Stack
+## 🔑 Environment Variables
 
-- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS, Lucide React
-- **Backend API**: Express / Vercel Serverless
-- **AI Reasoning**: Groq SDK (`llama-3.3-70b-versatile`)
-- **Connected Memory**: Cognee Cloud (`https://tenant-b4ea654e-84d5-4ba3-a3c7-333cc3e04fb1.aws.cognee.ai`)
-- **Database**: Supabase PostgreSQL
-- **Graph & Audit Engine**: Custom TypeScript DFS Graph Algorithms
-
----
-
-## 🔑 Environment Variables (`.env`)
+Configure these keys in your local `.env` or cloud dashboard (Render / Vercel):
 
 ```env
 # Groq LLM API
@@ -97,8 +97,9 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 # Supabase Admin (Backend Server)
 SUPABASE_URL=https://btuucgpelprepadqrcbi.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
+SUPABASE_ACCESS_TOKEN=your_supabase_access_token_here
 
-PORT=3001
+PORT=10000
 ```
 
 ---
@@ -109,13 +110,13 @@ PORT=3001
 # 1. Install dependencies
 npm install
 
-# 2. Run local development environment (Frontend + Backend Server)
+# 2. Run local development server (Frontend + Backend)
 npm run dev
 
 # 3. Test build compilation
 npm run build
 
-# 4. Run production server
+# 4. Start production server locally
 npm run serve
 ```
 
@@ -123,7 +124,7 @@ npm run serve
 
 ## 🎬 3-Minute Hackathon Live Demo Flow
 
-1. **Launch Demo**: Click "Launch Demo" on the hero screen.
+1. **Open Live App**: Go to [https://execora-ai.onrender.com](https://execora-ai.onrender.com) (or click "Launch Demo").
 2. **Review Readiness**: Observe initial score **62** (`READY WITH WARNINGS`) and transparent penalty breakdown.
 3. **Inspect Execution Graph**: View the 6-step dependency chain (`API Fix` → `API Test` → `Deployment` → `Screenshots` → `Presentation` → `Demo`).
 4. **Answer Clarification**: Answer *"Who owns the demo video?"* with *"Vishal"*. Watch readiness animate from **62** to **82**.
@@ -134,16 +135,10 @@ npm run serve
 
 ## 📜 Documentation Index
 
-All detailed specifications are available in the [`/docs`](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs) folder:
+All detailed technical specifications are available in the [`/docs`](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs) directory:
 - [PRD.md](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs/PRD.md): Product Requirements Document
 - [ARCHITECTURE.md](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs/ARCHITECTURE.md): System Architecture Specification
 - [HACKATHON_ALIGNMENT.md](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs/HACKATHON_ALIGNMENT.md): Alignment with Problem Statement 02
+- [RENDER_DEPLOYMENT.md](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs/RENDER_DEPLOYMENT.md): Render + UptimeRobot Setup Guide
+- [VERCEL_DEPLOYMENT.md](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs/VERCEL_DEPLOYMENT.md): Vercel Serverless Setup Guide
 - [JURY_QA.md](file:///d:/LOQ/Documents/AI%20DAY%20Paytm/docs/JURY_QA.md): Comprehensive Jury Defense Q&A
-
----
-
-## 🛡️ Security & Privacy
-
-- All external API keys (`GROQ_API_KEY`, `COGNEE_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`) are handled strictly server-side.
-- Zero client-side API key leakage.
-- Row-Level Security (RLS) enabled on Supabase PostgreSQL tables.
